@@ -100,5 +100,8 @@ void loop() {
   farmy.send(device_id, input_pins, api_key, client);
   delay(2000);
   char* json = farmy.get(device_id, api_key, client);
-  executeActions(json);
+  if (json) {
+    executeActions(json);
+    free(json);
+  }
 }
