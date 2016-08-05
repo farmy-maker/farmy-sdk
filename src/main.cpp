@@ -14,6 +14,7 @@ extern "C" {
 #define FLASH_DELAY 1000
 #define LONG_FLASH_DELAY 15000
 
+// Todo: try to config this in config file.
 /* setup Wifi */
 const char* ssid     = "Fenney";
 const char* password = "1357924680";
@@ -21,9 +22,8 @@ const char* password = "1357924680";
 const char* device_id = "bx7eWzca";
 String api_key = "CyL3K5AkTUM6cmuPRvXL2T";
 
-const int pins_size = 8;
-int input_pins[pins_size] = { 1, 2, 3 };
-int output_pins[pins_size] = {  };
+const int nums_size = 8;
+int input_nums[nums_size] = { 1, 2, 3 };
 
 // Todo: try to support other device, such as wire cable network.
 WiFiClient client;
@@ -35,33 +35,33 @@ void executeActions(char* json)
   for(JsonArray::iterator it=array.begin(); it!=array.end(); ++it)
   {
     JsonObject& object = *it;
-    String pin_s = object["pin"];
+    String num_s = object["num"];
     String action_type = object["action_type"];
-    Serial.println(pin_s);
+    Serial.println(num_s);
     Serial.println(action_type);
 
-    int pin = atof(pin_s.c_str());
-    pinMode(pin, OUTPUT);
+    int num = atof(num_s.c_str());
+    pinMode(num, OUTPUT);
 
     if(action_type == "turn_on") {
         Serial.println("Start to turn on");
-        digitalWrite(pin, LOW);
+        digitalWrite(num, LOW);
     }
     else if(action_type == "turn_off") {
         Serial.println("Start to turn off");
-        digitalWrite(pin, HIGH);
+        digitalWrite(num, HIGH);
     }
     else if(action_type == "flash") {
         Serial.println("Start to flash");
-        digitalWrite(pin, LOW);
+        digitalWrite(num, LOW);
         delay(FLASH_DELAY);
-        digitalWrite(pin, HIGH);
+        digitalWrite(num, HIGH);
     }
     else if(action_type == "flash_long") {
         Serial.println("Start to long flash");
-        digitalWrite(pin, LOW);
+        digitalWrite(num, LOW);
         delay(LONG_FLASH_DELAY);
-        digitalWrite(pin, HIGH);
+        digitalWrite(num, HIGH);
     }
   }
 }
@@ -98,7 +98,7 @@ void loop() {
   Serial.println(host);
 
   Farmy farmy;
-  farmy.send(device_id, input_pins, api_key, client);
+  farmy.send(device_id, input_nums, api_key, client);
   delay(2000);
   char* json = farmy.get(device_id, api_key, client);
   if (json) {

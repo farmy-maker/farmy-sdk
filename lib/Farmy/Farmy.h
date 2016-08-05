@@ -36,11 +36,11 @@ static const char* host = "api.farmy.net";
 class Farmy
 {
   public:
-    void send(const char* device_id, int input_pins[], String api_key, WiFiClient client);
+    void send(const char* device_id, int input_nums[], String api_key, WiFiClient client);
     char* get(const char* device_id, String api_key, WiFiClient client);
 
   private:
-    String collectData(int input_pins[]);
+    String collectData(int input_nums[]);
     void sendData(const char* device_id, String api_key, WiFiClient client, String data);
     uint32 check(int channel);
 };

@@ -6,14 +6,14 @@ extern "C" {
 #include "Farmy.h"
 #include "dht11.h"
 
-void Farmy::send( const char* device_id, int input_pins[], String api_key, WiFiClient client)
+void Farmy::send( const char* device_id, int input_nums[], String api_key, WiFiClient client)
 {
   if(!client.connect(host, 80)) {
     Serial.println("connection failed");
     return;
   }
 
-  String data = collectData(input_pins);
+  String data = collectData(input_nums);
   sendData(device_id, api_key, client, data);
 }
 
@@ -65,16 +65,16 @@ char* Farmy::get(const char* device_id, String api_key, WiFiClient client) {
   return json;
 }
 
-String Farmy::collectData(int input_pins[])
+String Farmy::collectData(int input_nums[])
 {
   StaticJsonBuffer<JSON_BUFFER_SIZE> jsonBuffer;
   JsonArray& array = jsonBuffer.createArray();
 
   int i = 0;
-  while(input_pins[i]) {
+  while(input_nums[i]) {
     JsonObject& object = array.createNestedObject();
-    object["pin"] = input_pins[i];
-    object["value"] = check(input_pins[i]);
+    object["num"] = input_nums[i];
+    object["value"] = check(input_nums[i]);
     ++i;
   }
 
@@ -105,7 +105,7 @@ String Farmy::collectData(int input_pins[])
   delay(1000);
 
   JsonObject& dht_object = array.createNestedObject();
-  dht_object["pin"] = 4;
+  dht_object["num"] = 4;
   dht_object["value"] = DHT.temperature;
 
   char data[JSON_BUFFER_SIZE];
