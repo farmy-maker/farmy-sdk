@@ -79,9 +79,9 @@ String Farmy::collectData(int input_nums[])
   }
 
   // Get dht data
-  int DHT11_PIN = 4;
+  int DHT11_NUM = 4;
   dht11 DHT;
-  int chk = DHT.read(DHT11_PIN);
+  int chk = DHT.read(DHT11_NUM);
   switch (chk)
   {
     case DHTLIB_OK:
