@@ -25,7 +25,7 @@ char* Farmy::get(const char* device_id, String api_key, WiFiClient client) {
     return json;
   }
 
-  String url = String("/api/v0/user_devices/") + device_id + "/triggered_actions/";
+  String url = String("/v0/user_devices/") + device_id + "/triggered_actions/";
 
   // This will send the request to the server
   client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n");
@@ -126,7 +126,7 @@ void Farmy::sendData(const char* device_id, String api_key, WiFiClient client, S
   Serial.println("Posted:" + data);
 
   // Create HTTP POST Data
-  String url = String("/api/v0/user_devices/") + device_id + "/sensor_datas/";
+  String url = String("/v0/user_devices/") + device_id + "/sensor_datas/";
   client.print(String("POST ") + url + " HTTP/1.1\n"+ "Host: " + host + "\n");
   client.print(String("Host: ") + host + "\n");
   client.print("Content-Type: application/json\n");

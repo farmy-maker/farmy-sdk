@@ -31,7 +31,7 @@
 #define JSON_BUFFER 256
 #define HTTP_CLIENT_DEFAULT_TIMEOUT 15000
 
-static const char* host = "farmy.net";
+static const char* host = "api.farmy.net";
 
 class Farmy
 {
