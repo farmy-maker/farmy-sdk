@@ -3,6 +3,7 @@
  */
 #include "Arduino.h"
 #include "Farmy.h"
+#include "dht11.h"
 
 extern "C" {
   #include "spi.h"
@@ -18,7 +19,7 @@ const char* ssid     = "Fenney";
 const char* password = "1357924680";
 
 const char* device_id = "bx7eWzca";
-String api_key = "uDLTp8WtTc5wQnFhyKFvFV";
+String api_key = "CyL3K5AkTUM6cmuPRvXL2T";
 
 const int pins_size = 8;
 int input_pins[pins_size] = { 1, 2, 3 };
