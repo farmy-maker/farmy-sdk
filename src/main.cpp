@@ -30,7 +30,7 @@ WiFiClient client;
 
 void executeActions(char* json)
 {
-  StaticJsonBuffer<JSON_BUFFER> jsonBuffer;
+  StaticJsonBuffer<JSON_BUFFER_SIZE> jsonBuffer;
   JsonArray& array = jsonBuffer.parseArray(json);
   for(JsonArray::iterator it=array.begin(); it!=array.end(); ++it)
   {

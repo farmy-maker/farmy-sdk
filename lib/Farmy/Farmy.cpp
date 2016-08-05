@@ -18,7 +18,7 @@ void Farmy::send( const char* device_id, int input_pins[], String api_key, WiFiC
 }
 
 char* Farmy::get(const char* device_id, String api_key, WiFiClient client) {
-  char* json = (char *)malloc(JSON_BUFFER);
+  char* json = (char *)malloc(JSON_BUFFER_SIZE);
 
   if(!client.connect(host, 80)) {
     Serial.println("connection failed");
@@ -67,7 +67,7 @@ char* Farmy::get(const char* device_id, String api_key, WiFiClient client) {
 
 String Farmy::collectData(int input_pins[])
 {
-  StaticJsonBuffer<256> jsonBuffer;
+  StaticJsonBuffer<JSON_BUFFER_SIZE> jsonBuffer;
   JsonArray& array = jsonBuffer.createArray();
 
   int i = 0;
@@ -108,7 +108,7 @@ String Farmy::collectData(int input_pins[])
   dht_object["pin"] = 4;
   dht_object["value"] = DHT.temperature;
 
-  char data[JSON_BUFFER];
+  char data[JSON_BUFFER_SIZE];
   array.printTo(data, sizeof(data));
   Serial.println("\n\nCollected json data:  ----------------------");
   Serial.println(data);

@@ -28,7 +28,7 @@
 #include <ESP8266WiFi.h>
 #include "include/ArduinoJson.h"
 
-#define JSON_BUFFER 256
+#define JSON_BUFFER_SIZE 256
 #define HTTP_CLIENT_DEFAULT_TIMEOUT 15000
 
 static const char* host = "api.farmy.net";
