@@ -13,11 +13,12 @@ extern "C" {
 
 #define FLASH_DELAY 1000
 #define LONG_FLASH_DELAY 15000
+#define SEND_INTERVAL = 2000 // milliseconds
 
 // Todo: try to config this in config file.
 /* setup Wifi */
-const char* ssid     = "Fenney";
-const char* password = "1357924680";
+const char* ssid     = "HWD15_E0191D438EFA";
+const char* password = "2i769r4mirj8y5i";
 
 const char* device_id = "bx7eWzca";
 String api_key = "CyL3K5AkTUM6cmuPRvXL2T";
@@ -92,14 +93,14 @@ void setup() {
 }
 
 void loop() {
-  delay(2000);
+  delay(SEND_INTERVAL);
 
   Serial.print("connecting to ");
   Serial.println(host);
 
   Farmy farmy;
   farmy.send(device_id, input_nums, api_key, client);
-  delay(2000);
+  delay(SEND_INTERVAL);
   char* json = farmy.get(device_id, api_key, client);
   if (json) {
     executeActions(json);

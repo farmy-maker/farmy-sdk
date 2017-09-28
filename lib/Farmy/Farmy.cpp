@@ -6,6 +6,12 @@ extern "C" {
 #include "Farmy.h"
 #include "dht11.h"
 
+/*
+ * @device_id Get the device id from Farmy.net when you registered your device.
+ * input_nums The port number of your sensors
+ * api_key The api key from Farmy
+ * client The wifi module
+*/
 void Farmy::send( const char* device_id, int input_nums[], String api_key, WiFiClient client)
 {
   if(!client.connect(host, 80)) {
