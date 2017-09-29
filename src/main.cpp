@@ -1,6 +1,7 @@
-/**
+/*
  * Farmy
  */
+
 #include "Arduino.h"
 #include "Farmy.h"
 #include "dht11.h"
@@ -10,10 +11,8 @@ extern "C" {
   #include "spi_register.h"
 }
 
-
 #define FLASH_DELAY 1000
 #define LONG_FLASH_DELAY 15000
-#define SEND_INTERVAL = 2000 // milliseconds
 
 // Todo: try to config this in config file.
 /* setup Wifi */
@@ -93,14 +92,14 @@ void setup() {
 }
 
 void loop() {
-  delay(SEND_INTERVAL);
+  delay(2000);
 
   Serial.print("connecting to ");
   Serial.println(host);
 
   Farmy farmy;
   farmy.send(device_id, input_nums, api_key, client);
-  delay(SEND_INTERVAL);
+  delay(2000);
   char* json = farmy.get(device_id, api_key, client);
   if (json) {
     executeActions(json);
