@@ -28,7 +28,7 @@
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 
-#define JSON_BUFFER_SIZE 256
+#define JSON_BUFFER_SIZE 256 // set json buffer size to 256 Bytes
 #define HTTP_CLIENT_DEFAULT_TIMEOUT 15000 // timeout after 15 seconds
 
 static const char* host = "api.farmy.net";
@@ -36,11 +36,11 @@ static const char* host = "api.farmy.net";
 class Farmy
 {
   public:
-    void send(const char* device_id, int input_nums[], String api_key, WiFiClient client);
+    void send(const char* device_id, int port_numberss[], String api_key, WiFiClient client);
     char* receive(const char* device_id, String api_key, WiFiClient client);
 
   private:
-    String collectData(int input_nums[]);
+    String collectData(int port_numberss[]);
     void sendData(const char* device_id, String api_key, WiFiClient client, String data);
     uint32 fetch(int channel);
 };

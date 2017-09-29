@@ -107,6 +107,7 @@ String Farmy::collectData(int port_numbers[])
   }
 
   // Get dht data
+  // TODO: DHT11 is a basic, ultra low-cost digital temperature and humidity sensor
   int DHT11_NUM = 4;
   dht11 DHT;
   int chk = DHT.read(DHT11_NUM);
@@ -126,9 +127,10 @@ String Farmy::collectData(int port_numbers[])
                 break;
   }
 
-  Serial.print(DHT.humidity,1);
+  Serial.print("Humidity and temperature are: ");
+  Serial.print(DHT.humidity, 1);
   Serial.print(",\t");
-  Serial.println(DHT.temperature,1);
+  Serial.println(DHT.temperature, 1);
 
   delay(1000);
 
@@ -138,11 +140,9 @@ String Farmy::collectData(int port_numbers[])
 
   char data[JSON_BUFFER_SIZE];
   array.printTo(data, sizeof(data));
-  Serial.println("\n\nCollected json data:  ----------------------");
-  Serial.println(data);
-  Serial.println();
 
-  String str = data;
+  Serial.print("Collected sensors' data are:");
+  Serial.println(data);
 
   return data;
 }
