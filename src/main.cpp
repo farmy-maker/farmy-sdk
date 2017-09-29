@@ -5,13 +5,12 @@
 #include <Arduino.h>
 #include <dht11.h>
 #include "Farmy.h"
-#include "config.h"
+#include "Config.h"
 
 extern "C" {
   #include "spi.h"
   #include "spi_register.h"
 }
-
 
 const int nums_size = 8;
 int input_nums[nums_size] = { 1, 2, 3 };
