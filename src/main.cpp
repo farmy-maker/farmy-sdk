@@ -2,25 +2,16 @@
  * Farmy
  */
 
-#include "Arduino.h"
+#include <Arduino.h>
+#include <dht11.h>
 #include "Farmy.h"
-#include "dht11.h"
+#include "config.h"
 
 extern "C" {
   #include "spi.h"
   #include "spi_register.h"
 }
 
-#define FLASH_DELAY 1000
-#define LONG_FLASH_DELAY 15000
-
-// Todo: try to config this in config file.
-/* setup Wifi */
-const char* ssid     = "HWD15_E0191D438EFA";
-const char* password = "2i769r4mirj8y5i";
-
-const char* device_id = "bx7eWzca";
-String api_key = "CyL3K5AkTUM6cmuPRvXL2T";
 
 const int nums_size = 8;
 int input_nums[nums_size] = { 1, 2, 3 };
@@ -76,9 +67,9 @@ void setup() {
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
-  Serial.println(ssid);
+  Serial.println(SSID);
 
-  WiFi.begin(ssid, password);
+  WiFi.begin(SSID, PASSWORD);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -98,9 +89,9 @@ void loop() {
   Serial.println(host);
 
   Farmy farmy;
-  farmy.send(device_id, input_nums, api_key, client);
+  farmy.send(DEVICE_ID, input_nums, API_KEY, client);
   delay(2000);
-  char* json = farmy.get(device_id, api_key, client);
+  char* json = farmy.receive(DEVICE_ID, API_KEY, client);
   if (json) {
     executeActions(json);
     free(json);
