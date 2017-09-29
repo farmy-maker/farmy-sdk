@@ -3,27 +3,43 @@ extern "C" {
   #include "spi_register.h"
 }
 
+#include <dht11.h>
 #include "Farmy.h"
-#include "dht11.h"
 
-/*
- * @device_id Get the device id from Farmy.net when you registered your device.
- * input_nums The port number of your sensors
- * api_key The api key from Farmy
- * client The wifi module
-*/
-void Farmy::send( const char* device_id, int input_nums[], String api_key, WiFiClient client)
+/**
+ * Collect sensor data and send back to farmy.net
+ *
+ * @param device_id
+ *            The device_id that you registered at farmy.net
+ * @param port_numbers
+ *           The port numbers of sensors
+ * @param api_key
+ *            The api_key from farmy.net
+ * @param client
+ *            The wifi client
+ */
+void Farmy::send( const char* device_id, int port_numbers[], String api_key, WiFiClient client)
 {
   if(!client.connect(host, 80)) {
     Serial.println("connection failed");
     return;
   }
 
-  String data = collectData(input_nums);
+  String data = collectData(port_numbers);
   sendData(device_id, api_key, client, data);
 }
 
-char* Farmy::get(const char* device_id, String api_key, WiFiClient client) {
+/**
+ * Receive data from farmy.net
+ *
+ * @param device_id
+ *            The device_id that you registered at farmy.net
+ * @param api_key
+ *            The api_key from farmy.net
+ * @param client
+ *            The wifi client
+ */
+char* Farmy::receive(const char* device_id, String api_key, WiFiClient client) {
   char* json = (char *)malloc(JSON_BUFFER_SIZE);
 
   if(!client.connect(host, 80)) {
@@ -71,16 +87,22 @@ char* Farmy::get(const char* device_id, String api_key, WiFiClient client) {
   return json;
 }
 
-String Farmy::collectData(int input_nums[])
+/**
+ * Collect all sensors' data
+ *
+ * @param port_numbers
+ *           The port numbers of sensors
+ */
+String Farmy::collectData(int port_numbers[])
 {
   StaticJsonBuffer<JSON_BUFFER_SIZE> jsonBuffer;
   JsonArray& array = jsonBuffer.createArray();
 
   int i = 0;
-  while(input_nums[i]) {
+  while(port_numbers[i]) {
     JsonObject& object = array.createNestedObject();
-    object["num"] = input_nums[i];
-    object["value"] = check(input_nums[i]);
+    object["num"]   = port_numbers[i];
+    object["value"] = fetch(port_numbers[i]);
     ++i;
   }
 
@@ -125,6 +147,18 @@ String Farmy::collectData(int input_nums[])
   return data;
 }
 
+/**
+ * Send sensor data back to farmy.net
+ *
+ * @param device_id
+ *            The device_id that you registered at farmy.net
+ * @param api_key
+ *            The api_key from farmy.net
+ * @param client
+ *            The wifi client
+ * @param data
+ *            The sensor data
+ */
 void Farmy::sendData(const char* device_id, String api_key, WiFiClient client, String data)
 {
   // Todo: use retry to connect internet.
@@ -152,7 +186,13 @@ void Farmy::sendData(const char* device_id, String api_key, WiFiClient client, S
   }
 }
 
-uint32 Farmy::check(int channel) {
+/**
+ * fetch sensor data
+ *
+ * @param channel
+ *            The channel of the sensor
+ */
+uint32 Farmy::fetch(int channel) {
   uint8 cmd = (0b11 << 3) | channel;
 
   const uint32 COMMAND_LENGTH = 5;
