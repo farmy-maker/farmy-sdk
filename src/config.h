@@ -19,8 +19,12 @@
 
 /*
  * Author: feng.zhang
+ * Replace this file with your own config.
  * Date:   2017/09/27
  */
+
+#ifndef CONFIG_H
+#define CONFIG_H
 
 // Set up to connect to your wifi
 #define SSID     "REPLACE_WITH_YOUR_WIFI_SSID"
@@ -34,3 +38,9 @@
 
 #define FLASH_DELAY 1000       // Set the short delay to trigger the pump
 #define LONG_FLASH_DELAY 15000 // Set the long delay to trigger the pump
+
+#define PORT_NUMBER_SIZE 8
+
+int port_numbers[PORT_NUMBER_SIZE] = { 1, 2, 3 };
+
+#endif

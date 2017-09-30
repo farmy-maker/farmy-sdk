@@ -31,6 +31,8 @@
 #define JSON_BUFFER_SIZE 256 // set json buffer size to 256 Bytes
 #define HTTP_CLIENT_DEFAULT_TIMEOUT 15000 // timeout after 15 seconds
 
+#define WIFI_CONNECT_TIMEOUT 5000 // timout after 5 seconds
+
 static const char* host = "api.farmy.net";
 
 class Farmy

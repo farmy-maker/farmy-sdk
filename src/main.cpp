@@ -1,5 +1,25 @@
+/* Config.h */
+/* Copyright (C) 2016 farmy.net, MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /*
- * Farmy
+ * Author: feng.zhang
+ * Date:   2017/09/28
  */
 
 #include <Arduino.h>
@@ -12,12 +32,9 @@ extern "C" {
   #include "spi_register.h"
 }
 
-const int nums_size = 8;
-int input_nums[nums_size] = { 1, 2, 3 };
-
-// Todo: try to support other device, such as wire cable network.
 WiFiClient client;
 
+// According to the user setting from Farmy.net, trigger the pump to give water in different ways.
 void executeActions(char* json)
 {
   StaticJsonBuffer<JSON_BUFFER_SIZE> jsonBuffer;
@@ -63,8 +80,6 @@ void setup() {
   spi_init(HSPI);
 
   // We start by connecting to a WiFi network
-  Serial.println();
-  Serial.println();
   Serial.print("Connecting to ");
   Serial.println(SSID);
 
@@ -75,9 +90,7 @@ void setup() {
     Serial.print(".");
   }
 
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
+  Serial.println("WiFi connected with ip address: ");
   Serial.println(WiFi.localIP());
 }
 
@@ -88,8 +101,10 @@ void loop() {
   Serial.println(host);
 
   Farmy farmy;
-  farmy.send(DEVICE_ID, input_nums, API_KEY, client);
+  // send sensor data to Farmy.net
+  farmy.send(DEVICE_ID, port_numbers, API_KEY, client);
   delay(2000);
+  // Get pump trigger setting from Farmy.net
   char* json = farmy.receive(DEVICE_ID, API_KEY, client);
   if (json) {
     executeActions(json);
