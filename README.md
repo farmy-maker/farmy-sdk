@@ -1,14 +1,15 @@
 # farmy-sdk
 C++ SDK for [FARMY](https://www.farmy.net/)
 
-## requirement
+## Requirement
 - [PlatformIO 2.0.0-rc2 or above](http://platformio.org/): open source ecosystem for IoT development.
 - [Atom 1.19.1 or above](https://atom.io/)
 
 ## Devices
 Name|Production Number|Addition
----|---|---|---|---
+---|---|---
 ESP8266 Wroom | ESP8266 |low-cost Wi-Fi chip with full TCP/IP stack and MCU (microcontroller unit) capability|
+DHT11 | DHT11 | low-cost Wi-Fi chip with full TCP/IP stack and MCU (microcontroller unit) capability |
 IlluminanceIn sensor|DFR0026||
 Moisture Sensor|SEN0114|-|
 Transistor array|TD62064||50V|
